@@ -87,3 +87,11 @@ ENV/
 
 # Rope project settings
 .ropeproject
+/src/ImageInheritor/ImageInheritor/obj
+/src/ImageInheritor/ImageInheritor/bin
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
+/.idea/image-inheritance.iml
+/.idea/misc.xml
+/src/ImageInheritor/.vs/ImageInheritor/v14/*.suo
