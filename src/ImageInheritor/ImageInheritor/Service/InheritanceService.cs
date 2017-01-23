@@ -1,16 +1,15 @@
-﻿using System;
-using Inheritor.Model;
+﻿using Inheritor.Model;
 
 namespace Inheritor.Service
 {
-    public class InheritanceService : IInheritanceService
+    internal class InheritanceService : IInheritanceService
     {
-        public IImage Inherit(IImage left, IImage right)
+        public ImageInheritanceResult Inherit(IImage left, IImage right)
         {
             var width = left.Width;
             var height = right.Height;
 
-            return new BitmapImage(null);
+            return ImageInheritanceResult.Fail("placeholder message");
         }
     }
 }

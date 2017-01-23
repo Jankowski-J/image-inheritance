@@ -4,6 +4,6 @@ namespace Inheritor.Service
 {
     public interface IInheritanceService
     {
-        IImage Inherit(IImage left, IImage right);
+        ImageInheritanceResult Inherit(IImage left, IImage right);
     }
 }
