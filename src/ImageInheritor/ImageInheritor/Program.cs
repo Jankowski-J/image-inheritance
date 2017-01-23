@@ -55,16 +55,18 @@ namespace Inheritor
                     var maxGreen = Math.Max(pixelA.G, pixelB.G);
                     var greenDiff = maxGreen - minGreen;
 
-                    var red = minRed + random.Next(redDiff);
-                    var green = minGreen + random.Next(greenDiff);
-                    var blue = minBlue + random.Next(blueDiff);
+                    var percentageChange = random.Next(100);
+
+                    var red = minRed + redDiff * percentageChange / 100;
+                    var green = minGreen + greenDiff * percentageChange / 100;
+                    var blue = minBlue + blueDiff * percentageChange / 100;
 
                     var color = Color.FromArgb(255, red, green, blue);
                     outputBitmap.SetPixel(wIndex, hIndex, color);
                 }
             }
 
-            var fileName = $"output_{DateTime.Now:hh-mm-ss}.png";
+            var fileName = $"output_{DateTime.Now:HH-mm-ss}.png";
             outputBitmap.Save(fileName);
             imageA.Dispose();
             imageB.Dispose();
