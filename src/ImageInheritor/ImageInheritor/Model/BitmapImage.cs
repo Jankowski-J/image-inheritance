@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 
 namespace Inheritor.Model
 {
@@ -51,6 +54,26 @@ namespace Inheritor.Model
         public static BitmapImage GetBlankBitmap(int width, int height)
         {
             return GetBlankBitmap(width, height, Color.White);
+        }
+
+        public void ToFile(string fileName = "")
+        {
+            var dir = AssemblyDirectory;
+            fileName = string.IsNullOrWhiteSpace(fileName)
+                ? $"img_{DateTime.Now:HH-mm-ss}.png"
+                : fileName;
+            _baseImage.Save(Path.Combine(dir, fileName));
+        }
+
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                var uri = new UriBuilder(codeBase);
+                var path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
         }
     }
 }

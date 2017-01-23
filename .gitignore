@@ -95,3 +95,9 @@ ENV/
 /.idea/image-inheritance.iml
 /.idea/misc.xml
 /src/ImageInheritor/.vs/ImageInheritor/v14/*.suo
+/src/ImageInheritor/Inheritor.Tests/obj
+/src/ImageInheritor/Inheritor.Tests/bin
+/src/ImageInheritor/packages/NUnit.3.6.0/CHANGES.txt
+/src/ImageInheritor/packages/NUnit.3.6.0/LICENSE.txt
+/src/ImageInheritor/packages/NUnit.3.6.0/NOTICES.txt
+/src/ImageInheritor/packages/NUnit.3.6.0/NUnit.3.6.0.nupkg

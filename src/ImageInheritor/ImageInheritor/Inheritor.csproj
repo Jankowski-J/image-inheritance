@@ -47,11 +47,11 @@
   <ItemGroup>
     <Compile Include="Model\BitmapImage.cs" />
     <Compile Include="Model\IImage.cs" />
-    <Compile Include="Model\ImageInheritanceResult.cs" />
+    <Compile Include="Model\ImageMutationResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\IInheritanceService.cs" />
-    <Compile Include="Service\InheritanceService.cs" />
+    <Compile Include="Service\IImageMutationService.cs" />
+    <Compile Include="Service\ImageMutationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

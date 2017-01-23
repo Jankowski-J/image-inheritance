@@ -8,5 +8,6 @@ namespace Inheritor.Model
         int Height { get; }
 
         Color this[int i, int y] { get; set; }
+        void ToFile(string fileName = "");
     }
 }

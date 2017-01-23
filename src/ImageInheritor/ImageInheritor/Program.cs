@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using Inheritor.Model;
+using Inheritor.Service;
 
 namespace Inheritor
 {
@@ -8,9 +10,9 @@ namespace Inheritor
     {
         static void Main(string[] args)
         {
-            var basePath = @"C:\dev\image-inheritance\testData";
-            var firstImageName = "evil_face.jpg";
-            var secondImageName = "evil_face_inv.jpg";
+            const string basePath = @"C:\dev\image-inheritance\testData";
+            const string firstImageName = "evil_face.jpg";
+            const string secondImageName = "evil_face_inv.jpg";
 
             var imageA = (Bitmap)Image.FromFile(Path.Combine(basePath, firstImageName));
             var imageB = (Bitmap)Image.FromFile(Path.Combine(basePath, secondImageName));
@@ -24,49 +26,14 @@ namespace Inheritor
                 graph.FillRectangle(Brushes.White, imageSize);
             }
 
-            var random = new Random();
-            for (var wIndex = 0; wIndex < width; wIndex++)
-            {
-                for (var hIndex = 0; hIndex < height; hIndex++)
-                {
-                    var pixelA = imageA.GetPixel(wIndex, hIndex);
-                    var pixelB = imageB.GetPixel(wIndex, hIndex);
+            var service = new ImageMutationService();
+            var left = new BitmapImage(imageA);
+            var right = new BitmapImage(imageB);
 
-                    //if (pixelA.ToArgb().Equals(Color.White.ToArgb()))
-                    //{
-                    //    outputBitmap.SetPixel(wIndex, hIndex, pixelB);
-                    //    continue;
-                    //}
-                    //if (pixelB.ToArgb().Equals(Color.White.ToArgb()))
-                    //{
-                    //    outputBitmap.SetPixel(wIndex, hIndex, pixelA);
-                    //    continue;
-                    //}
-
-                    var minRed = Math.Min(pixelA.R, pixelB.R);
-                    var maxRed = Math.Max(pixelA.R, pixelB.R);
-                    var redDiff = maxRed - minRed;
-
-                    var minBlue = Math.Min(pixelA.B, pixelB.B);
-                    var maxBlue = Math.Max(pixelA.B, pixelB.B);
-                    var blueDiff = maxBlue - minBlue;
-
-                    var minGreen = Math.Min(pixelA.G, pixelB.G);
-                    var maxGreen = Math.Max(pixelA.G, pixelB.G);
-                    var greenDiff = maxGreen - minGreen;
-
-                    var percentageChange = random.Next(100);
-
-                    var red = minRed + redDiff * percentageChange / 100;
-                    var green = minGreen + greenDiff * percentageChange / 100;
-                    var blue = minBlue + blueDiff * percentageChange / 100;
-
-                    var color = Color.FromArgb(255, red, green, blue);
-                    outputBitmap.SetPixel(wIndex, hIndex, color);
-                }
-            }
+            var result = service.Mutate(left, right);
 
             var fileName = $"output_{DateTime.Now:HH-mm-ss}.png";
+            result.Image.ToFile(fileName);
             outputBitmap.Save(fileName);
             imageA.Dispose();
             imageB.Dispose();
