@@ -34,10 +34,8 @@ namespace Inheritor
 
             var fileName = $"output_{DateTime.Now:HH-mm-ss}.png";
             result.Image.ToFile(fileName);
-            outputBitmap.Save(fileName);
             imageA.Dispose();
             imageB.Dispose();
-            outputBitmap.Dispose();
         }
     }
 }

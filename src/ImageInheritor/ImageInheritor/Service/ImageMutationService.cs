@@ -6,12 +6,12 @@ namespace Inheritor.Service
 {
     internal class ImageMutationService : IImageMutationService
     {
+        private Random _randomGenerator = new Random();
+
         public ImageMutationResult Mutate(IImage left, IImage right)
         {
             var width = left.Width;
             var height = right.Height;
-
-            var random = new Random();
 
             var resultBitmap = BitmapImage.GetBlankBitmap(width, height);
 
@@ -21,11 +21,12 @@ namespace Inheritor.Service
                 {
                     var pixelA = left[wIndex, hIndex];
                     var pixelB = right[wIndex, hIndex];
-                    var percentageChange = random.Next(100);
+                    var percentageChange = _randomGenerator.Next(100);
+                    var shouldMutate = ShouldMutate(pixelA, pixelB);
 
-                    var red = GetChangedRed(pixelA, pixelB, percentageChange);
-                    var green = GetChangedGreen(pixelA, pixelB, percentageChange);
-                    var blue = GetChangedBlue(pixelA, pixelB, percentageChange);
+                    var red = GetChangedRed(pixelA, pixelB, percentageChange, shouldMutate);
+                    var green = GetChangedGreen(pixelA, pixelB, percentageChange, shouldMutate);
+                    var blue = GetChangedBlue(pixelA, pixelB, percentageChange, shouldMutate);
 
                     var color = Color.FromArgb(255, red, green, blue);
                     resultBitmap[wIndex, hIndex] = color;
@@ -35,8 +36,24 @@ namespace Inheritor.Service
             return ImageMutationResult.Succeed(resultBitmap);
         }
 
-        private static int GetChangedGreen(Color pixelA, Color pixelB, int percentageChange)
+        private bool ShouldMutate(Color left, Color right)
         {
+            if (left.ToArgb() == Color.White.ToArgb() || right.ToArgb() == Color.White.ToArgb())
+            {
+                var rand = _randomGenerator.NextDouble();
+
+                return rand >= 0.8;
+            }
+
+            return true;
+        }
+
+        private static int GetChangedGreen(Color pixelA, Color pixelB, int percentageChange, bool shouldMutate)
+        {
+            if (!shouldMutate)
+            {
+                return 255;
+            }
             var minGreen = Math.Min(pixelA.G, pixelB.G);
             var maxGreen = Math.Max(pixelA.G, pixelB.G);
             var greenDiff = maxGreen - minGreen;
@@ -44,8 +61,12 @@ namespace Inheritor.Service
             return green;
         }
 
-        private static int GetChangedBlue(Color pixelA, Color pixelB, int percentageChange)
+        private static int GetChangedBlue(Color pixelA, Color pixelB, int percentageChange, bool shouldMutate)
         {
+            if (!shouldMutate)
+            {
+                return 255;
+            }
             var minBlue = Math.Min(pixelA.B, pixelB.B);
             var maxBlue = Math.Max(pixelA.B, pixelB.B);
             var blueDiff = maxBlue - minBlue;
@@ -53,8 +74,12 @@ namespace Inheritor.Service
             return blue;
         }
 
-        private static int GetChangedRed(Color pixelA, Color pixelB, int percentageChange)
+        private static int GetChangedRed(Color pixelA, Color pixelB, int percentageChange, bool shouldMutate)
         {
+            if (!shouldMutate)
+            {
+                return 255;
+            }
             var minRed = Math.Min(pixelA.R, pixelB.R);
             var maxRed = Math.Max(pixelA.R, pixelB.R);
             var redDiff = maxRed - minRed;
